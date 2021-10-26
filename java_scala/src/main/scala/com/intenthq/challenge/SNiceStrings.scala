@@ -21,5 +21,23 @@ object SNiceStrings {
 //    dvszwmarrgswjxmb is naughty because it contains only one vowel.
 //    How many strings are nice?
 
-  def nice(xs: List[String]): Int = ???
+  def nice(santasTextFile: List[String]): Int = {
+
+    val listOfNaughtyStrings: List[String] = List("ab", "cd", "pq", "xy")
+    val regex : Regex = "[aeiou]".r
+
+    santasTextFile.map {
+      string =>
+        val containsThreeVowels = if (regex.findAllMatchIn(string.toLowerCase).size > 2) true else false
+        val containsDoubleChars = if (string.sliding(2).count(char => char(0) == char(1)) > 0) true else false
+        val doesNotContainNaughtyStrings = !listOfNaughtyStrings.exists(naughtyString => string.toLowerCase.contains(naughtyString))
+
+        if (containsThreeVowels && containsDoubleChars && doesNotContainNaughtyStrings) {
+          1
+        } else {
+          0
+        }
+    }.head
+  }
+
 }
