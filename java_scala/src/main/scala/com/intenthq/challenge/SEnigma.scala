@@ -22,6 +22,28 @@ object SEnigma {
   // Following the above rules, the message would be: “1N73N7 HQ”
   // Check the tests for some other (simpler) examples.
 
-  def deciphe(map: Map[Int, Char])(message: List[Int]): String = ???
+  final case class Match(value: Char, keyLength: Int)
 
+  def deciphe(dictionary: Map[Int, Char])(incomingMessage: List[Int]): String = {
+
+    @tailrec
+    def getMatchOrShortenKey(key: Int): Match =
+      dictionary.get(key) match {
+        case Some(value) => Match(value, key.toString.length)
+        case None if key.toString.length == 1 => Match(key.toString.head, 1)
+        case _ => getMatchOrShortenKey(key.toString.dropRight(1).toInt)
+      }
+
+    @tailrec
+    def iterateMessage(message: Seq[Int], result: String = ""): String = {
+      message match {
+        case Nil => result
+        case _ =>
+          val matchedKey: Match = getMatchOrShortenKey(message.take(3).mkString.toInt)
+          iterateMessage(message.drop(matchedKey.keyLength), result :+ matchedKey.value)
+      }
+    }
+    iterateMessage(incomingMessage)
+  }
+  
 }
