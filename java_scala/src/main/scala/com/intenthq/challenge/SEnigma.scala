@@ -1,4 +1,7 @@
-package com.intenthq.challenge;
+package com.intenthq.challenge
+
+import scala.annotation.tailrec
+;
 
 object SEnigma {
 

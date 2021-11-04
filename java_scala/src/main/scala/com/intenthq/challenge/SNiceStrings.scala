@@ -1,5 +1,7 @@
 package com.intenthq.challenge
 
+import scala.util.matching.Regex
+
 object SNiceStrings {
 
 // From http://adventofcode.com/day/5
